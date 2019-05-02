@@ -1,14 +1,16 @@
 package main;
+
 import java.util.Scanner;
+import modes.*;
 
 public class Application {
 	private static String PROJECT_BANNER = "----- Project 04: Knapsack -----";
 	private static String INSTRUCTIONS = "Please select task:";
 	private static String WELCOME_MSG = "      Welcome! " + INSTRUCTIONS;
-	private static String KNAPSACK_MODE = "Knapsack Solutions.";
+	private static String KNAPSACK_MODE = "Knapsack Solutions";
 	private static String COMPARISON_MODE = "Knapsack Efficiency Graphs";
 
-	// private static KnapsackMode knapsackMode = new KnapsackMode();
+	private static KnapsackMode knapsackMode = new KnapsackMode();
 	// private static ComparisonMode comparisonMode = new ComparisonMode();
 
 	public static void main(String[] args) {
@@ -28,28 +30,24 @@ public class Application {
 
 	private static void processUserInput() {
 		Scanner scanner = new Scanner(System.in);
-		boolean toProcess = true;
-		try {
-			while (toProcess) {
+		while (true) {
+			try {
 				printChoices();
 				switch (Integer.parseInt(scanner.nextLine())) {
 					case 1:
 						System.out.println("Selected: " + KNAPSACK_MODE);
-						// knapsackMode.run();
-						toProcess = false;
+						knapsackMode.run();
 						break;
 					case 2: 
 						System.out.println("Selected: " + COMPARISON_MODE);
 						// comparisonMode.run();
-						toProcess = false;
 						break;
 					default:
 						System.out.println("Not a choice. " + INSTRUCTIONS);
 				}	
+			} catch (java.lang.NumberFormatException e) {
+				System.out.println("Not a number. " + INSTRUCTIONS);
 			}
-		} catch (java.lang.NumberFormatException e) {
-			System.out.println("Not a number. " + INSTRUCTIONS);
-			processUserInput();
 		}
 	}
 }
