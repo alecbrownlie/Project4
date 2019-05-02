@@ -19,7 +19,9 @@ public class KnapsackMode {
 		List<Integer> weights = getWeights();
 		List<Integer> values = getValues();
 
-		System.out.println("Knapsack capacity = " + capacity + ". Total number of items = " + values.size());
+		System.out.println("Knapsack capacity = " + capacity + ". Total number of items = " + values.size() + "\n");
+		System.out.println("Values = " + values);
+		System.out.println("Weights = " + weights);
 		System.exit(0);
 	}
 
@@ -43,7 +45,6 @@ public class KnapsackMode {
 			try {
 				System.out.print("Enter file containing the " + var + ": ");
 				String fileName = "../" + scanner.next();
-				// System.out.print("[DEBUG]: value of filename = " + fileName);
 				File file = new File(fileName);
 				reader = new BufferedReader(new FileReader(file));
 				String text;
@@ -68,24 +69,4 @@ public class KnapsackMode {
 		}
 		return result;
 	}
-
-	// protected void runTask1A() {
-	// 	System.out.println("----- Running " + TASK_1A + " -----");
-	// 	Integer n = getUserInput("n");
-	// 	printAvgModDivisions(n);
-	// 	printAvgDivisions(n);
-	// 	printAvgTimeModDivisions(n);
-	// }
-
-	// protected void runTask2() {
-	// 	System.out.println("----- Running " + TASK_2 + " -----");
-	// 	Integer k = getUserInput("k");
-	// 	BigInteger m = fibonacci.getNthElement(k + 1);
-	// 	BigInteger n = fibonacci.getNthElement(k);
-	// 	BigInteger gcd = euclids.computeGCD(m, n);
-	// 	System.out.println("m = Fib(k + 1) = " + m);
-	// 	System.out.println("n = Fib(k) = " + n);
-	// 	System.out.println("GCD(m, n) = " + gcd);
-	// 	printAvgTimeFibModDivisions(k);
-	// }
 }
