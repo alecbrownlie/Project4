@@ -1,5 +1,7 @@
 package modes;
 
+import algorithms.*;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -7,22 +9,30 @@ import java.io.File;
 import java.io.IOException;
 
 import java.lang.IllegalArgumentException;
-
-import java.util.Scanner;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*; 
 
 public class KnapsackMode {
+	private KnapsackDP knapsackDP = new KnapsackDP();
 
 	public void run() {
 		Integer capacity = getCapacity();
 		List<Integer> weights = getWeights();
 		List<Integer> values = getValues();
-
-		System.out.println("Knapsack capacity = " + capacity + ". Total number of items = " + values.size() + "\n");
-		System.out.println("Values = " + values);
-		System.out.println("Weights = " + weights);
+		System.out.println("\nKnapsack capacity = " + capacity + ". Total number of items = " + values.size() + "\n");
+		runTask1A(capacity, values, weights);
 		System.exit(0);
+	}
+
+	private void runTask1A(Integer capacity, List<Integer> values, List<Integer> weights) {
+		Set<Integer> optimalSubset = new HashSet<Integer>();
+
+		long startTime = System.nanoTime();
+		Integer optimalValue = knapsackDP.compute(capacity, values, weights, optimalSubset);
+		long endTime = System.nanoTime();
+
+		System.out.println("Traditional Dynamic Programming Optimal value: " + optimalValue);
+		System.out.println("Traditional Dynamic Programming Optimal value: " + optimalSubset.toString().replace("[","{").replace("]", "}").trim());
+		System.out.println("Traditional Dynamic Programming Time Taken: " + (endTime - startTime));
 	}
 
 	private Integer getCapacity() {

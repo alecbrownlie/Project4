@@ -35,11 +35,11 @@ public class Application {
 				printChoices();
 				switch (Integer.parseInt(scanner.nextLine())) {
 					case 1:
-						System.out.println("Selected: " + KNAPSACK_MODE);
+						System.out.println("Selected: " + KNAPSACK_MODE + "\n");
 						knapsackMode.run();
 						break;
 					case 2: 
-						System.out.println("Selected: " + COMPARISON_MODE);
+						System.out.println("Selected: " + COMPARISON_MODE + "\n");
 						// comparisonMode.run();
 						break;
 					default:
