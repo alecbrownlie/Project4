@@ -12,7 +12,7 @@ public class Application {
 	private static String COMPARISON_MODE = "Knapsack Efficiency Graphs";
 
 	private static KnapsackMode knapsackMode = new KnapsackMode();
-	// private static ComparisonMode comparisonMode = new ComparisonMode();
+	private static ComparisonMode comparisonMode = new ComparisonMode();
 
 	public static void main(String[] args) {
 		printMenu();
@@ -41,7 +41,7 @@ public class Application {
 						break;
 					case 2: 
 						System.out.println("Selected: " + COMPARISON_MODE + "\n");
-						// comparisonMode.run();
+						comparisonMode.run();
 						break;
 					default:
 						System.out.println("Not a choice. " + INSTRUCTIONS);
