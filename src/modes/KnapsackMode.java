@@ -13,6 +13,7 @@ import java.util.*;
 
 public class KnapsackMode {
 	private KnapsackDP knapsackDP = new KnapsackDP();
+	private KnapsackGreedy knapsackGreedy = new KnapsackGreedy();
 
 	public void run() {
 		Integer capacity = getCapacity();
@@ -20,6 +21,9 @@ public class KnapsackMode {
 		List<Integer> values = getValues();
 		System.out.println("\nKnapsack capacity = " + capacity + ". Total number of items = " + values.size() + "\n");
 		runTask1A(capacity, values, weights);
+		// runTask1B(capacity, values, weights);
+		runTask2A(capacity, values, weights);
+		runTask2B(capacity, values, weights);
 		System.exit(0);
 	}
 
@@ -31,8 +35,44 @@ public class KnapsackMode {
 		long endTime = System.nanoTime();
 
 		System.out.println("Traditional Dynamic Programming Optimal value: " + optimalValue);
-		System.out.println("Traditional Dynamic Programming Optimal value: " + optimalSubset.toString().replace("[","{").replace("]", "}").trim());
-		System.out.println("Traditional Dynamic Programming Time Taken: " + (endTime - startTime));
+		System.out.println("Traditional Dynamic Programming Optimal subset: " + optimalSubset.toString().replace("[","{").replace("]", "}").trim());
+		System.out.println("Traditional Dynamic Programming Time Taken: " + (endTime - startTime) + "\n");
+	}
+
+	private void runTask1B(Integer capacity, List<Integer> values, List<Integer> weights) {
+		Set<Integer> optimalSubset = new HashSet<Integer>();
+
+		long startTime = System.nanoTime();
+		Integer optimalValue = knapsackDP.computeWithHash(capacity, values, weights, optimalSubset);
+		long endTime = System.nanoTime();
+
+		System.out.println("Space-efficient Dynamic Programming Optimal value: " + optimalValue);
+		System.out.println("Space-efficient Dynamic Programming Optimal subset: " + optimalSubset.toString().replace("[","{").replace("]", "}").trim());
+		System.out.println("Space-efficient Dynamic Programming Time Taken: " + (endTime - startTime) + "\n");
+	}
+
+	private void runTask2A(Integer capacity, List<Integer> values, List<Integer> weights) {
+		Set<Integer> optimalSubset = new HashSet<Integer>();
+
+		long startTime = System.nanoTime();
+		Integer optimalValue = knapsackGreedy.compute(capacity, values, weights, optimalSubset);
+		long endTime = System.nanoTime();
+
+		System.out.println("Greedy Approach Optimal value: " + optimalValue);
+		System.out.println("Greedy Approach Optimal subset: " + optimalSubset.toString().replace("[","{").replace("]", "}").trim());
+		System.out.println("Greedy Approach Time Taken: " + (endTime - startTime) + "\n");
+	}
+
+	private void runTask2B(Integer capacity, List<Integer> values, List<Integer> weights) {
+		Set<Integer> optimalSubset = new HashSet<Integer>();
+
+		long startTime = System.nanoTime();
+		Integer optimalValue = knapsackGreedy.computeWithHeap(capacity, values, weights, optimalSubset);
+		long endTime = System.nanoTime();
+
+		System.out.println("Heap-based Greedy Approach Optimal value: " + optimalValue);
+		System.out.println("Heap-based Greedy Approach Optimal subset: " + optimalSubset.toString().replace("[", "{").replace("]", "}").trim());
+		System.out.println("Heap-based Greedy Approach Time Taken: " + (endTime - startTime) + "\n");
 	}
 
 	private Integer getCapacity() {

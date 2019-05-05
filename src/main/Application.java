@@ -2,6 +2,7 @@ package main;
 
 import java.util.Scanner;
 import modes.*;
+import structures.*;
 
 public class Application {
 	private static String PROJECT_BANNER = "----- Project 04: Knapsack -----";
