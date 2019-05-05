@@ -29,19 +29,25 @@ public class ComparisonMode {
 	public void run() {
 		File folder = new File("../test/");
 		List<File> files = Arrays.asList(folder.listFiles());
+		if (files.size() % 3 != 0) {
+			System.out.println("[ERROR] number of files in test/ must be a multiple of 3");
+			System.exit(0);
+		}
+		Collections.sort(files);
+		compareDP(files);
 		compareGreedy(files);
 	}
 
-	private void compareGreedy(List<File> files) {
-		XYSeriesCollection datasetGreedy = new XYSeriesCollection();
-		// XYSeriesCollection datasetGreedyHeap = new XYSeriesCollection();
-		System.out.println("----- Generating Graph for Greedy -----");
+	private void compareDP(List<File> files) {
+		XYSeriesCollection datasetDP = new XYSeriesCollection();
+		System.out.println("Generating Graphs for Dynamic Programming Comparisons...");
 
-		XYSeries greedySeries = new XYSeries("Greedy");
+		XYSeries dpSeries = new XYSeries("DP");
+		XYSeries dpHashSeries = new XYSeries("DP w/ Hashing");
+
 		for (int i = 0; i < files.size() / 3; i++) {
 			final Integer index = i;
-			List<File> currentFiles = files.stream().filter(file -> index == Integer.parseInt(file.getName().substring(1,2))).collect(Collectors.toList());
-			
+			List<File> currentFiles = files.stream().filter(file -> index == Integer.parseInt(file.getName().substring(2,3))).collect(Collectors.toList());
 			Integer capacity = 0;
 			List<Integer> values = new ArrayList<Integer>();
 			List<Integer> weights = new ArrayList<Integer>();
@@ -49,13 +55,70 @@ public class ComparisonMode {
 
 			for (File file : currentFiles) {
 				String fileName = file.getName();
-				switch(fileName.charAt(fileName.length() - 1)) {
+				char c = fileName.charAt(fileName.length() - 5);
+				switch(c) {
 					case 'c':
 						capacity = readFile(file).get(0);
+						break;
 					case 'v':
 						values = readFile(file);
+						break;
 					case 'w':
 						weights = readFile(file);
+						break;
+					default:
+						break;
+				}
+			}
+
+			long startTime = System.nanoTime();
+			Integer optimalValue = knapsackDP.compute(capacity, values, weights, optimalSubset);
+			long endTime = System.nanoTime();
+			dpSeries.add(values.size(), (endTime - startTime));
+
+			// startTime = System.nanoTime();
+			// optimalValue = knapsackDP.computeWithHeap(capacity, values, weights, optimalSubset);
+			// endTime = System.nanoTime();
+			// dpHashSeries.add(values.size(), (endTime - startTime));
+		}
+
+		datasetDP.addSeries(dpSeries);
+		// datasetDP.addSeries(dpHashSeries);
+		String title = "Dynamic Programming Comparison";
+		generateScatterPlot(datasetDP, title, "N", "Time");
+	}
+
+
+	private void compareGreedy(List<File> files) {
+		XYSeriesCollection datasetGreedy = new XYSeriesCollection();
+		System.out.println("Generating Graphs for Greedy Comparisons...\n");
+
+		XYSeries greedySeries = new XYSeries("Greedy");
+		XYSeries greedyHeapSeries = new XYSeries("Greedy w/ Max-Heap");
+
+		for (int i = 0; i < files.size() / 3; i++) {
+			final Integer index = i;
+			List<File> currentFiles = files.stream().filter(file -> index == Integer.parseInt(file.getName().substring(2,3))).collect(Collectors.toList());
+			Integer capacity = 0;
+			List<Integer> values = new ArrayList<Integer>();
+			List<Integer> weights = new ArrayList<Integer>();
+			Set<Integer> optimalSubset = new HashSet<Integer>();
+
+			for (File file : currentFiles) {
+				String fileName = file.getName();
+				char c = fileName.charAt(fileName.length() - 5);
+				switch(c) {
+					case 'c':
+						capacity = readFile(file).get(0);
+						break;
+					case 'v':
+						values = readFile(file);
+						break;
+					case 'w':
+						weights = readFile(file);
+						break;
+					default:
+						break;
 				}
 			}
 
@@ -63,10 +126,16 @@ public class ComparisonMode {
 			Integer optimalValue = knapsackGreedy.compute(capacity, values, weights, optimalSubset);
 			long endTime = System.nanoTime();
 			greedySeries.add(values.size(), (endTime - startTime));
+
+			startTime = System.nanoTime();
+			optimalValue = knapsackGreedy.computeWithHeap(capacity, values, weights, optimalSubset);
+			endTime = System.nanoTime();
+			greedyHeapSeries.add(values.size(), (endTime - startTime));
 		}
 
 		datasetGreedy.addSeries(greedySeries);
-		String title = "Greedy";
+		datasetGreedy.addSeries(greedyHeapSeries);
+		String title = "Greedy Comparison";
 		generateScatterPlot(datasetGreedy, title, "N", "Time");
 	}
 

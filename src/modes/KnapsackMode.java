@@ -24,7 +24,6 @@ public class KnapsackMode {
 		// runTask1B(capacity, values, weights);
 		runTask2A(capacity, values, weights);
 		runTask2B(capacity, values, weights);
-		System.exit(0);
 	}
 
 	private void runTask1A(Integer capacity, List<Integer> values, List<Integer> weights) {
