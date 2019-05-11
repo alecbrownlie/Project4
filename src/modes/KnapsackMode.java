@@ -21,9 +21,10 @@ public class KnapsackMode {
 		List<Integer> values = getValues();
 		System.out.println("\nKnapsack capacity = " + capacity + ". Total number of items = " + values.size() + "\n");
 		runTask1A(capacity, values, weights);
-		// runTask1B(capacity, values, weights);
+		runTask1B(capacity, values, weights);
 		runTask2A(capacity, values, weights);
 		runTask2B(capacity, values, weights);
+		System.exit(0);
 	}
 
 	private void runTask1A(Integer capacity, List<Integer> values, List<Integer> weights) {

@@ -59,7 +59,6 @@ public class KnapsackGreedy {
 				break;
 			}
 		}
-
 		return optimalValue;
 	}
 }
