@@ -57,37 +57,35 @@ public class KnapsackDP {
 	    return table[n - 1][capacity];
 	}
 
-	public Integer computeWithHash(int capacity, List<Integer> values, List<Integer> weights, Set<Integer> optimalSubset) {
+	public Integer MFKnapsack(int i, int j, HashTable table, List<Integer> weights, List<Integer> values) {
+		if (i < 1) return 0;
+		Integer current = table.get(i,j);
+
+		if (current == 0) {
+			Integer value = 0;
+			if (j < weights.get(i-1)) {
+				value = MFKnapsack(i - 1, j, table, weights, values);
+			} else {
+				value = max(MFKnapsack(i - 1, j, table, weights, values), values.get(i - 1) + MFKnapsack(i - 1, j - weights.get(i - 1), table, weights, values));
+			}
+			table.add(i, j, value);
+		}
+		return current;
+	}
+
+	public Integer computeWithHash(int capacity, List<Integer> values, List<Integer> weights, Set<Integer> optimalSubset, Integer k) {
 	    int n = values.size() + 1;
 	    int cap = capacity + 1;
 	    // System.out.println("[DEBUG] capcity = " + capacity + ", cap = " + cap);
-	    HashTable table = new HashTable(capacity, 10);
+	    HashTable table = new HashTable(capacity, k);
+
+	    Integer result = 0;
 
 	    for (int item = 1; item < n; item++) {
 	        for (int weight = 1; weight < cap; weight++) {
-	           	
-	           	Integer tableEntry1 = table.get(item - 1, weight);
-
-	            if (weights.get(item - 1) <= weight) {
-	            	
-	            	// System.out.println("[DEBUG21] item = " + item + ", weight = " + weight);
-
-	            	Integer tableEntry2 = table.get(item - 1, weight - weights.get(item-1));
-
-	            	// System.out.println("[DEBUG21] tableEntry1 = " + tableEntry1 + ", tableEntry2 = " + tableEntry2);
-	            	// System.out.println("[DEBUG21] values.get(item - 1) = " + values.get(item - 1) + ", max = " + max(tableEntry1, values.get(item - 1) + tableEntry2));
-
-	                table.add(item, weight, max(tableEntry1, 
-	                	values.get(item - 1) + tableEntry2));
-	            }
-	            else {
-	            	// System.out.println("[DEBUG22] item = " + item + ", weight = " + weight + ", tableEntry1 = " + tableEntry1);
-	                table.add(item, weight, tableEntry1);
-	            }
+	        	result = MFKnapsack(item, weight, table, weights, values);
 	        }
 	    }
-
-	    // table.print();
 
 	    int currentItem = n - 1;
 	    int currentWeight = capacity;
@@ -95,16 +93,12 @@ public class KnapsackDP {
 	    	try {
 	    		Integer entry1 = table.get(currentItem, currentWeight);
 	 			Integer entry2 = table.get((currentItem - 1), currentWeight);
-		        if (entry1 > entry2) {
-		        	
-		        	System.out.println("[DEBUG31] entry1 = " + entry1 + ", entry2 = " + entry2);
+		        if (entry1 > entry2) {		        	
 		            optimalSubset.add(currentItem);
 		            currentWeight -= weights.get(currentItem - 1);
 		            currentItem--;
-		           	System.out.println("[DEBUG31] do we get here?");
 		        }
 		        else {
-		        	// System.out.println("[DEBUG32] do we get here?");
 		            currentItem--;
 		        }
 		    } catch(java.lang.NumberFormatException e) {
@@ -113,7 +107,6 @@ public class KnapsackDP {
 		    }
 	    }
 
-	    // System.out.println("[DEBUG33] do we get here?");
-	    return table.get(n - 1, capacity);
+	    return table.get(n-1, capacity);
 	}
 }

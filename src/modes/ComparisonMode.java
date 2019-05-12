@@ -44,6 +44,7 @@ public class ComparisonMode {
 
 		XYSeries dpSeries = new XYSeries("DP");
 		XYSeries dpHashSeries = new XYSeries("DP w/ Hashing");
+		Integer k = 100;
 
 		for (int i = 0; i < files.size() / 3; i++) {
 			final Integer index = i;
@@ -76,16 +77,16 @@ public class ComparisonMode {
 			long endTime = System.nanoTime();
 			dpSeries.add(values.size(), (endTime - startTime));
 
-			// startTime = System.nanoTime();
-			// optimalValue = knapsackDP.computeWithHeap(capacity, values, weights, optimalSubset);
-			// endTime = System.nanoTime();
-			// dpHashSeries.add(values.size(), (endTime - startTime));
+			startTime = System.nanoTime();
+			optimalValue = knapsackDP.computeWithHash(capacity, values, weights, optimalSubset, k);
+			endTime = System.nanoTime();
+			dpHashSeries.add(values.size(), (endTime - startTime));
 		}
 
 		datasetDP.addSeries(dpSeries);
-		// datasetDP.addSeries(dpHashSeries);
+		datasetDP.addSeries(dpHashSeries);
 		String title = "Dynamic Programming Comparison";
-		generateScatterPlot(datasetDP, title, "N", "Time");
+		generateScatterPlot(datasetDP, title, "N", "Time w/ k = " + k);
 	}
 
 

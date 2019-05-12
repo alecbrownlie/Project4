@@ -43,7 +43,7 @@ public class KnapsackMode {
 		Set<Integer> optimalSubset = new HashSet<Integer>();
 
 		long startTime = System.nanoTime();
-		Integer optimalValue = knapsackDP.computeWithHash(capacity, values, weights, optimalSubset);
+		Integer optimalValue = knapsackDP.computeWithHash(capacity, values, weights, optimalSubset, 20);
 		long endTime = System.nanoTime();
 
 		System.out.println("Space-efficient Dynamic Programming Optimal value: " + optimalValue);

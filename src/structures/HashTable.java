@@ -19,7 +19,7 @@ public class HashTable {
             bucketArray.add(null); 
     } 
   
-    private Integer hash(Integer i, Integer j) { 
+    public Integer hash(Integer i, Integer j) { 
     	int bn = getNumberOfBits(k);
     	int bw = getNumberOfBits(capacity);
 
@@ -78,9 +78,9 @@ public class HashTable {
             size++; 
             head = bucketArray.get(bucketIndex); 
 
-            System.out.println("[DEBUG] key = " + i + ", value = " + j + ", bucketIndex = " + bucketIndex );
+            // System.out.println("[DEBUG] key = " + i + ", value = " + j + ", bucketIndex = " + bucketIndex );
             LLNode<Integer, Integer> newNode = new LLNode<Integer, Integer>(i, value);
-            System.out.println("[DEBUG] newNode.key =" + String.valueOf(newNode.key) + ", newNode.value = " + String.valueOf(newNode.value));
+            // System.out.println("[DEBUG] newNode.key =" + String.valueOf(newNode.key) + ", newNode.value = " + String.valueOf(newNode.value));
  
             newNode.next = head; 
             bucketArray.set(bucketIndex, newNode); 
@@ -111,7 +111,7 @@ public class HashTable {
             if (node != null) {
                 String nodeKey = node.key == null ? "null" : String.valueOf(node.key);
                 String nodeValue = node.value == null ? "null" : String.valueOf(node.value);
-
+                
                 System.out.println("bucketArray[" + i + "] key = " + nodeKey + ", value = " + nodeValue);
                 while (node.next != null) {
                     System.out.println("next -> key = " + node.next.key + ", value = " + node.next.value);
