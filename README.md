@@ -1,4 +1,4 @@
-# Project 4
+# Project 4: Knapsack
 Authors: Alec Brownlie & Ryan Romero
 ----------------------------
 To run:
@@ -6,6 +6,6 @@ To run:
 - Must have Java 8 JDK/JRE installed.
 - Run following command:
 ```
-[./Project1]$ sh run.sh
+[./Project4]$ sh run.sh
 ```
 - GitHub link: https://github.com/alecbrownlie/Project4
